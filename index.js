@@ -60,5 +60,14 @@ app.delete('/deleteSelectedTasks', async (req, res) => {
     }
 })
 
+app.delete('/deleteAllTasks', async (req, res) => {
+    try{
+       const result=  await db.query("DELETE FROM task_list RETURNING *");
+       return res.send(result);
+    }catch (err) {
+        console.log(err);
+        return{msg:"Error"}
+    }
+})
 
 app.listen(PORT, () => {console.log("yay")});
