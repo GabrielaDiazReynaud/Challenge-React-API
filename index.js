@@ -25,15 +25,14 @@ app.post('/addTask', async (req, res) => {
         console.log(result);
        return res.send(result);
     }catch (err) {
-        console.log(err);
         return{msg:"Error"}
     }
 })
 
 app.put('/updateTaskSelected/:id', async (req, res) => {
     try{
-       const result=  await db.query("UPDATE task_list RETURNING *",{task: req.body.task});
-        console.log(result);
+       console.log(req.params.id );
+       const result=  await db.query("UPDATE task_list SET selected = ${selected} WHERE id = ${id} RETURNING *",{id: req.params.id ,selected: req.body.selected});
        return res.send(result);
     }catch (err) {
         console.log(err);
