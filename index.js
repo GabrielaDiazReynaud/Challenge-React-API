@@ -42,7 +42,6 @@ app.put('/updateTaskSelected/:id', async (req, res) => {
 
 app.put('/updateTask/:id', async (req, res) => {
     try{
-       console.log(req.params.id );
        const result=  await db.query("UPDATE task_list SET task=${task} ,selected = ${selected} WHERE id = ${id} RETURNING *",{id: req.params.id ,selected: req.body.selected, task: req.body.task});
        return res.send(result);
     }catch (err) {
@@ -53,12 +52,13 @@ app.put('/updateTask/:id', async (req, res) => {
 
 app.delete('/deleteSelectedTasks', async (req, res) => {
     try{
-       console.log(req.params.id );
-       const result=  await db.query("UPDATE task_list SET task=${task} ,selected = ${selected} WHERE id = ${id} RETURNING *",{id: req.params.id ,selected: req.body.selected, task: req.body.task});
+       const result=  await db.query("DELETE FROM task_list WHERE selected= true RETURNING *");
        return res.send(result);
     }catch (err) {
         console.log(err);
         return{msg:"Error"}
     }
 })
+
+
 app.listen(PORT, () => {console.log("yay")});
