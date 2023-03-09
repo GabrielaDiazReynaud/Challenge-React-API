@@ -1,4 +1,4 @@
-// const functions = require("firebase-functions");
+const functions = require("firebase-functions");
 const express = require("express");
 const PORT= 8080;
 const app=express();
@@ -46,7 +46,7 @@ app.put('/updateTaskSelected/:id', async (req, res) => {
 
 app.put('/updateTask/:id', async (req, res) => {
     try{
-       const  {rows: result}=  await client.query("UPDATE task_list SET task=$4 ,selected = $2 WHERE id = $1 RETURNING *",[req.params.id ,req.body.selected, req.body.task]);
+       const  {rows: result}=  await client.query("UPDATE task_list SET task=$3 ,selected = $2 WHERE id = $1 RETURNING *",[req.params.id ,req.body.selected, req.body.task]);
        return res.send(result);
     }catch (err) {
         console.log(err);
@@ -85,5 +85,4 @@ app.delete('/deleteAllTasks', async (req, res) => {
 
 
 
-// exports.helloWorld = functions.https.onRequest(app)
-app.listen(PORT)
+exports.helloWorld = functions.https.onRequest(app)
