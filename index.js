@@ -3,12 +3,13 @@ const PORT= 8080;
 const app=express();
 require('dotenv').config();
 const connectionString = process.env.CONNECTION_STRING;
-const pgp = require("pg-promise")()
-const db = pgp(connectionString)
-const bodyParser = require('body-parser')
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.get("/tasks",async(req, res)=>{
+const pgp = require("pg-promise")();
+const db = pgp(connectionString);
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.get("/tasks", async(req, res) =>{
     try{
         const result = await db.query('SELECT * FROM task_list');
         console.log("yay");
@@ -71,3 +72,4 @@ app.delete('/deleteAllTasks', async (req, res) => {
 })
 
 app.listen(PORT, () => {console.log("yay")});
+
